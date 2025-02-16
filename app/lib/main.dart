@@ -168,7 +168,7 @@ class _MoistureMeterScreenState extends State<MoistureMeterScreen> {
   // Fetch moisture level from an API endpoint.
   Future<double> fetchMoistureLevel(String plantName) async {
     try {
-      final response = await http.get(Uri.parse('http://172.20.10.6:5000/moisture/$plantName'));
+      final response = await http.get(Uri.parse('http://18.227.105.1:5000/moisture'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         return (data['moistureLevel'] as num).toDouble();
