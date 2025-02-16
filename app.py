@@ -5,7 +5,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flower'
 db = SQLAlchemy(app)
 
 class Plant(db.Model):
-    id = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
     species = db.Column(db.String(80))
     threshold = db.Column(db.Float)
     maximum = db.Column(db.Float)
@@ -24,7 +24,7 @@ def receive_data():
     if 'moistureLevel' in data:
         plant = Plant.query.get(1)
         if plant:
-            plant.moisture = data['moisturelevel']
+            plant.moisture = data['moistureLevel']
             db.session.commit()
         else:
             return jsonify({"error": "Invalid data"}), 400
@@ -50,6 +50,8 @@ def add_plant():
     plant = Plant(id=1,species= data["plant"], moisture=0, 
                   threshold=data["minMoisture"], maximum=data["maxMoisture"])
     db.session.add(plant)
+    db.session.commit()
+    return jsonify({"message": "Plant added successfully"}), 200
     
     
 if __name__ == "__main__":
